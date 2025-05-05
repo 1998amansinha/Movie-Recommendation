@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import Header from "./Header";
 import { validateData } from "../utils/validate";
-import { auth } from "../utils/firebase";
+import { clientAuth } from "../utils/firebase";
 import { useNavigate } from "react-router-dom";
 import {
   createUserWithEmailAndPassword,
@@ -18,9 +18,7 @@ const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const toggleForm = () => {
-    setIsSignInForm(!isSignInForm);
-  };
+  const toggleForm = () => setIsSignInForm(!isSignInForm);
 
   const name = useRef(null);
   const email = useRef(null);
@@ -32,58 +30,43 @@ const Login = () => {
       password.current.value
     );
     setErrorMessage(validationMessage);
-
     if (validationMessage) return;
 
     if (!isSignInForm) {
-      //Sign up Logic
-
+      // Sign up logic
       createUserWithEmailAndPassword(
-        auth,
+        clientAuth,
         email.current.value,
         password.current.value
       )
         .then((userCredential) => {
-          // Signed up
           const user = userCredential.user;
           updateProfile(user, {
             displayName: name.current.value,
           })
             .then(() => {
-              // Profile updated!
-              const { uid, email, displayName } = auth;
-              dispatch(
-                addUser({ uid: uid, displayName: displayName, email: email })
-              );
+              const { uid, email, displayName } = clientAuth.currentUser;
+              dispatch(addUser({ uid, email, displayName }));
+              navigate("/browse");
             })
-            .catch((error) => {
-              // An error occurred
-              navigate("/error");
-            });
+            .catch(() => navigate("/error"));
         })
         .catch((error) => {
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          setErrorMessage(errorCode + " " + errorMessage);
+          setErrorMessage(`${error.code} ${error.message}`);
         });
     } else {
       // Sign in logic
       signInWithEmailAndPassword(
-        auth,
+        clientAuth,
         email.current.value,
         password.current.value
       )
         .then((userCredential) => {
-          // Signed in
           const user = userCredential.user;
-          if (user) {
-            navigate("/browse");
-          }
+          if (user) navigate("/browse");
         })
         .catch((error) => {
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          setErrorMessage(errorCode + " " + errorMessage);
+          setErrorMessage(`${error.code} ${error.message}`);
         });
     }
   };
@@ -110,16 +93,16 @@ const Login = () => {
           />
         )}
         <input
+          ref={email}
           className="w-3/4 p-3 my-3 mx-10 rounded-sm bg-gray-900 text-white outline outline-offset-2 outline-1 outline-white"
           type="text"
           placeholder="Email or Phone number"
-          ref={email}
         />
         <input
+          ref={password}
           className="w-3/4 p-3 my-3 mx-10 rounded-sm bg-gray-900 outline outline-offset-2 outline-1 outline-white text-white"
           type="password"
           placeholder="Password"
-          ref={password}
         />
         <p className="text-red-600 mx-10 font-bold text-lg">{errorMessage}</p>
         <button
@@ -149,4 +132,5 @@ const Login = () => {
     </div>
   );
 };
+
 export default Login;

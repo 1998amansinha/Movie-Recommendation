@@ -4,10 +4,8 @@ import { BackGround } from "../utils/constant";
 
 const GptSearch = () => {
   return (
-    <div>
-      <div className="absolute -z-10">
-        <img className="bg-cover h-fit" src={BackGround} alt="logo" />
-      </div>
+    <div className="h-full bg-black">
+      <div className="absolute -z-10"></div>
       <GptSearchBar />
     </div>
   );

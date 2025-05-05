@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { signOut } from "firebase/auth";
 import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "../utils/firebase";
+import { clientAuth } from "../utils/firebase";
 import { useEffect } from "react";
 import { removeUser, addUser } from "../utils/store/userSlice";
 import { LOGO, SUPORTED_LANGUAGES } from "../utils/constant";
@@ -16,7 +16,7 @@ const Header = () => {
   const showGptSearch = useSelector((store) => store.gpt.showGptSearch);
 
   const handleSignOut = () => {
-    signOut(auth)
+    signOut(clientAuth)
       .then(() => {
         // Sign-out successful.
         dispatch(removeUser());
@@ -29,7 +29,7 @@ const Header = () => {
   };
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(clientAuth, (user) => {
       if (user) {
         const { uid, displayName, email } = user;
         dispatch(addUser({ uid: uid, displayName: displayName, email: email })); // Check if this action dispatches correctly
@@ -53,6 +53,16 @@ const Header = () => {
   return (
     <div className="absolute bg-gradient-to-b from-black w-screen z-10 flex justify-between">
       <img className="w-48 mx-28 my-4 " src={LOGO} alt="logo" />
+      {!user && (
+        <div className="flex items-center mr-14">
+          <button
+            onClick={() => navigate("/admin")}
+            className="px-10 py-4 bg-red-700 rounded-lg text-white font-bold hover:bg-red-500"
+          >
+            Admin
+          </button>
+        </div>
+      )}
       {user && (
         <div className="flex items-center">
           {showGptSearch && (
