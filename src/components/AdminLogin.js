@@ -1,4 +1,3 @@
-// AdminLogin.js
 import { useState, useRef } from "react";
 import { useNavigate } from "react-router";
 import {
@@ -123,6 +122,7 @@ const AdminLogin = () => {
           </button>
         </form>
 
+        {/* Footer Links */}
         <div className="text-gray-400 mt-6 text-center space-y-2">
           <p>
             {isSignInForm ? (
@@ -146,6 +146,17 @@ const AdminLogin = () => {
                 </span>
               </>
             )}
+          </p>
+
+          {/* 👇 Add this for users who landed here by mistake */}
+          <p>
+            Not an Admin?{" "}
+            <span
+              onClick={() => navigate("/")}
+              className="text-blue-400 cursor-pointer hover:underline"
+            >
+              Go to User Login
+            </span>
           </p>
         </div>
       </div>
