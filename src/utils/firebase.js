@@ -1,7 +1,8 @@
 // src/utils/firebase.js
 
-import { initializeApp, getApps, getApp } from "firebase/app";
+import { initializeApp, getApps } from "firebase/app";
 import { getAuth } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
 
 // --- Client (User-facing) Firebase Project ---
 const clientConfig = {
@@ -36,3 +37,5 @@ const adminApp =
 // --- Export Auth instances separately ---
 export const clientAuth = getAuth(clientApp);
 export const adminAuth = getAuth(adminApp);
+
+export const db = getFirestore(adminApp);

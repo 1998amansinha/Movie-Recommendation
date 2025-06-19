@@ -4,6 +4,7 @@ import Browse from "./Browse";
 import AdminLogin from "./AdminLogin";
 import Admin from "./Admin";
 import ProtectedAdminRoute from "./ProtectedAdminRoute";
+import AddMovies from "./AddMovies";
 
 const Body = () => {
   const appRouter = createBrowserRouter([
@@ -26,6 +27,10 @@ const Body = () => {
           <Admin />
         </ProtectedAdminRoute>
       ),
+    },
+    {
+      path: "/add-movies",
+      element: <AddMovies />,
     },
   ]);
 
