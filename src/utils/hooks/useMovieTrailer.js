@@ -12,9 +12,7 @@ const useMovieTrailer = (movieId) => {
         "/videos?language=en-US",
       API_OPTIONS
     );
-    console.log("response", response);
     const data = await response.json(); // Assuming the first video is the best quality available
-    console.log("data", data);
     const filterData = data.results.filter((video) => video.type === "Trailer");
     const trailer =
       filterData.length > 0

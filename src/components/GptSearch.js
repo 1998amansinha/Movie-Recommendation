@@ -1,6 +1,5 @@
 import React from "react";
 import GptSearchBar from "./GptSearchBar";
-import { BackGround } from "../utils/constant";
 
 const GptSearch = () => {
   return (

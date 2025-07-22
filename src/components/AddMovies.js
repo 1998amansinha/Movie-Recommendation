@@ -14,7 +14,6 @@ const AddMovies = () => {
     rating: "",
     year: "",
   });
-  console.log("user", user);
 
   const handleAddMovies = async (e) => {
     e.preventDefault();
@@ -22,6 +21,7 @@ const AddMovies = () => {
     const movie = {
       ...input,
       rating: parseFloat(input.rating),
+      genre: input.genre?.toLowerCase(),
       createdBy: user?.displayName || "unknown",
       timestamp: serverTimestamp(),
     };
