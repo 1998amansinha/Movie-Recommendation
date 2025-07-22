@@ -5,6 +5,7 @@ import AdminLogin from "./AdminLogin";
 import Admin from "./Admin";
 import ProtectedAdminRoute from "./ProtectedAdminRoute";
 import AddMovies from "./AddMovies";
+import UserSearch from "./UserSearch";
 
 const Body = () => {
   const appRouter = createBrowserRouter([
@@ -19,6 +20,10 @@ const Body = () => {
     {
       path: "/admin-login",
       element: <AdminLogin />,
+    },
+    {
+      path: "/user-search",
+      element: <UserSearch />,
     },
     {
       path: "/admin",

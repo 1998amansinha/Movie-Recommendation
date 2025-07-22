@@ -50,6 +50,10 @@ const Header = () => {
     dispatch(toggleGptSearch());
   };
 
+  const handleUserSearch = () => {
+    navigate("/user-search");
+  };
+
   return (
     <div className="absolute bg-gradient-to-b from-black w-screen z-10 flex justify-between">
       <img className="w-48 mx-28 my-4 " src={LOGO} alt="logo" />
@@ -64,7 +68,13 @@ const Header = () => {
         </div>
       )}
       {user && (
-        <div className="flex items-center">
+        <div className="flex items-center gap-1">
+          <button
+            className="p-3 rounded-lg bg-red-700 text-white hover:cursor-pointer hover:bg-red-600"
+            onClick={handleUserSearch}
+          >
+            User Search
+          </button>
           {showGptSearch && (
             <div className="mr-2">
               <select
